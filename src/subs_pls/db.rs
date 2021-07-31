@@ -7,8 +7,9 @@ async fn connect_db() -> Result<Client, Error> {
     let host = env::var("DB_IP").unwrap();
     let user = env::var("DB_USER").unwrap();
     let db_name = env::var("DB_NAME").unwrap();
+    let db_pw = env::var("DB_PW").unwrap();
     let (client, connection) =
-        tokio_postgres::connect(&format!("host={} user={} dbname={}", host, user, db_name),
+        tokio_postgres::connect(&format!("host={} user={} dbname={} password={}", host, user, db_name, db_pw),
                                 NoTls).await?;
 
     tokio::spawn(async move {
