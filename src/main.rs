@@ -77,13 +77,19 @@ async fn check_rss(rss_link: String) {
     let rss = reqwest::get(&rss_link).await
         .expect("not available").text().await
         .expect("not available");
-    let feed = SubsPlsChannel::from_xml(&rss).unwrap();
-    let last_rss = rss_db_communicator.get_guid().await;
-    let new_newest = feed.items[0].guid.to_string();
-    if new_newest != last_rss {
-        notify_users(&feed, &last_rss).await;
-        rss_db_communicator.save_guid(&new_newest).await.ok();
+    let feed_res = SubsPlsChannel::from_xml(&rss);
+    match feed_res {
+        Ok(feed) => {
+            let last_rss = rss_db_communicator.get_guid().await;
+            let new_newest = feed.items[0].guid.to_string();
+            if new_newest != last_rss {
+                notify_users(&feed, &last_rss).await;
+                rss_db_communicator.save_guid(&new_newest).await.ok();
+            }
+        }
+        Err(e) => {println!("Rss parsing Error: {}", e)}
     }
+
 }
 
 async fn episode_update() {

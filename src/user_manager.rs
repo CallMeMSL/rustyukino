@@ -1,8 +1,6 @@
 use crate::subs_pls::db;
 use crate::subs_pls::page_parser::{Show, AddFailure, add_show, is_valid_url, AirTime};
 use std::collections::HashSet;
-use reduce::Reduce;
-
 
 pub async fn is_user_registered(user_id: i64) -> Result<bool, ()> {
     let res = db::is_user_registered(user_id).await;
@@ -113,10 +111,10 @@ pub async fn generate_schedule(user_id: i64) -> Result<ShowTable, ()> {
 
 
     let mut week_days = Vec::new();
-    for day in 1..=7 {
+    for day in 0..=6 {
         let mut day_vec = Vec::new();
         for &(h, m) in air_times.iter() {
-            let show_names = airing_shows
+            let show_names =  airing_shows
                 .iter()
                 .filter(|&&s|
                     s.air_time.est_week_day == day &&

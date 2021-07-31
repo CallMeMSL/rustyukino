@@ -1,6 +1,5 @@
 use crate::subs_pls::db;
 use crate::subs_pls::page_parser::scrape_show;
-use std::thread::Thread;
 
 pub async fn update_shows() {
     let res = db::get_all_show_ids().await;

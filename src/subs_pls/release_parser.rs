@@ -1,6 +1,6 @@
 use regex::Regex;
 use roxmltree::Descendants;
-
+use std::fmt;
 
 
 pub struct SubsPlsChannel {
@@ -21,6 +21,12 @@ pub enum RssParsingError {
     ItemPubDateNotFound,
     ItemCategoryNotFound,
     ItemSizeNotFound,
+}
+
+impl fmt::Display for RssParsingError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        fmt::Debug::fmt(self, f)
+    }
 }
 
 
