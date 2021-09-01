@@ -131,7 +131,7 @@ pub async fn scrape_show(show_id: &str) -> Option<Show> {
     let (image_url, synopsis, name) = get_image_synopsis_and_name(&page_data).await?;
     let schedule_data = reqwest::get("https://subsplease.org/api/?f=schedule&tz=Europe/Berlin")
         .await.ok()?.text().await.ok()?;
-    let schedule_c: ScheduleContainer = serde_json::from_str(&schedule_data).unwrap();
+    let schedule_c: ScheduleContainer = serde_json::from_str(&schedule_data).ok()?;
     let (mut is_airing, mut est_week_day, mut est_h, mut est_m) = (false, -1, -1, -1);
     for (i, &day) in weekdays.iter().enumerate() {
         let shows_today = schedule_c.schedule.get(day)?;

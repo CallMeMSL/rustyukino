@@ -51,7 +51,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
 
     let release_check = every((&*env::var("RSS_REFRESH")
-        .expect("rss refresh")).parse().unwrap())
+        .expect("rss refresh")).parse()?)
         .second().perform(|| async {
         check_rss(env::var("RSS_LINK").expect("rss link")).await;
     });
