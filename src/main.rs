@@ -74,9 +74,14 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
 async fn check_rss(rss_link: String) {
     let rss_db_communicator: RssIdDbCommunicator = RssIdDbCommunicator::new().await;
-    let rss = reqwest::get(&rss_link).await
-        .expect("not available").text().await
-        .expect("not available");
+    let rss =
+        match reqwest::get(&rss_link).await {
+            Ok(r) => match r.text().await {
+                Ok(t) => t,
+                _ => "not available".to_string()
+            }
+            _ => "not available".to_string()
+        };
     let feed_res = SubsPlsChannel::from_xml(&rss);
     match feed_res {
         Ok(feed) => {
