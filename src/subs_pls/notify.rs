@@ -63,7 +63,7 @@ async fn send_notifications<'a>(notification_data: NotificationData<'a>) {
                         e.thumbnail(&notification_data.show.image_url);
                         e.description(&notification_data.show.synopsis);
                         e.field(format!("Download - {}", &notification_data.item.file_size),
-                                format!("[🧲](https://yukino.static.app/?r={})", notification_data.item.link), true);
+                                format!("[🧲](https://yukino.onrender.com/?r={})", notification_data.item.link), true);
                         e.field("Show Information",
                                 format!("[🌐](https://subsplease.org/shows/{}/) [Ⓜ](https://myanimelist.net/search/all?q={}&cat=all)",
                                         notification_data.show.id,
